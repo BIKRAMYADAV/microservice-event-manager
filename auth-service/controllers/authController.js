@@ -63,3 +63,26 @@ exports.login = async (req, res) => {
         })
     }
 }
+
+exports.verifyToken = async (req, res) => {
+    try{
+        const authHeader = req.headers.authorization ;
+        if(!authHeader){
+            return res.status(401).json({
+                valid: false 
+            })
+
+        }
+        const token = authHeader.split(" ")[1];
+        const decoded = jwt.verify(token, JWTSECRET);
+        res.json({
+            valid:true,
+            user:decoded
+        })
+    } catch(error){
+        console.log("There was a server error in auth service");
+        res.status(500).json({
+            message: "There was an error in auth service"
+        })
+    }
+}
