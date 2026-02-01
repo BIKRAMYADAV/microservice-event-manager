@@ -10,6 +10,7 @@ app.use(express.json());
 
 app.use("/api/auth", authProxy);
 
+
 app.listen(PORT, () => {
     console.log(`The gateway server is listening on port ${PORT}`);
 })
