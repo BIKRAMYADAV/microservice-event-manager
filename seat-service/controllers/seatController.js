@@ -1,6 +1,20 @@
 const Seat = require('../models/Seat')
 exports.lockSeat = async (req, res) => {
+    const {eventId, seatNumber} = req.body;
     const userId = req.user.id;
+
+    const lockKey = `LOCK:${eventId}:${seatNumber}`
+    //each seat has it's own lock
+
+    //(keyname, value stored) => (seat, owner)
+    const locked = await redis.set(lockKey, userId, "NX", "EX", 600)
+    //NX -> set if key does not exist, EX -> auto expire after 600 seconds
+    if(!locked){
+        return res.status(400).json({
+            message: "seat is locked"
+        })
+    }
+
     const now = new Date();
     const seat = await Seat.findOneAndUpdate({
         eventId,
@@ -21,4 +35,15 @@ exports.lockSeat = async (req, res) => {
     new:true//returns the updated one
 }
 )
+
+if(!seat){
+    await redis.del(lockKey);//the redis need to be rollbackked
+    return res.status(400).json({
+        message: 'seat cannot be locked'
+    })
+}
+res.status(200).json({
+    message: 'seat locked',
+    seat
+})
 }
