@@ -1,4 +1,6 @@
 const Seat = require('../models/Seat')
+
+
 exports.lockSeat = async (req, res) => {
     const {eventId, seatNumber} = req.body;
     const userId = req.user.id;
@@ -46,4 +48,18 @@ res.status(200).json({
     message: 'seat locked',
     seat
 })
+}
+
+exports.getSeat = async (req, res) => {
+    const eventId = req.params.eventId;
+    const seatNumber = req.params.seatNumber 
+    const seat = Seat.findOne({
+        eventId, seatNumber
+    })
+    if(!seat){
+        return res.status(400).json({
+            message: "AVAILABLE"
+        })
+    }
+    return res.status(201).return(seat)
 }
