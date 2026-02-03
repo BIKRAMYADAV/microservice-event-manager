@@ -35,3 +35,25 @@ exports.createBooking = async (req, res) => {
         })
     }
 }
+
+exports.confirmBooking = async (req, res) => {
+    try{
+        
+    } catch (err){
+        console.log('server error in confirming booking')
+        return res.status(500).json({
+            message: "server error while confirming"
+        })
+    }
+}
+
+exports.cancelBooking = async (req, res) => {
+    try {
+        
+    } catch (error){
+        console.log('server error while cancelling booking')
+        return res.status(500).json({
+            message: "booking cannot be cancelled"
+        })
+    }
+}

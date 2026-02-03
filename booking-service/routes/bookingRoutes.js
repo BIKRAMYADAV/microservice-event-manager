@@ -4,12 +4,8 @@ const bookingController = require('../controllers/bookingController')
 
 router.post("/create", bookingController.createBooking)
 
-router.post("/confirm", () => {
+router.post("/confirm",bookingController.confirmBooking)
 
-})
-
-router.post("/cancel", () => {
-
-})
+router.post("/cancel", bookingController.cancelBooking)
 
 module.exports = router

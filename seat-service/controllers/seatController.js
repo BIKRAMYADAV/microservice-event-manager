@@ -63,3 +63,73 @@ exports.getSeat = async (req, res) => {
     }
     return res.status(201).return(seat)
 }
+
+exports.confirmSeat = async (req, res) => {
+ try {
+    const { eventId, seatNumber } = req.body;
+    const userId = req.user.id;
+
+    const seat = await Seat.findOneAndUpdate(
+      {
+        eventId,
+        seatNumber,
+        status: "LOCKED",
+        lockedBy: userId,
+      },
+      {
+        $set: {
+          status: "BOOKED",
+          lockedBy: null,
+          lockExpiresAt: null,
+        },
+      },
+      { new: true }//replaces with new one
+    );
+
+    if (!seat) {
+      return res
+        .status(400)
+        .json({ message: "Seat cannot be confirmed" });
+    }
+
+    res.json({ message: "Seat booked", seat });
+  } catch (err) {
+    console.error("Confirm seat error:", err);
+    res.status(500).json({ message: "Failed to confirm seat" });
+  }
+}
+
+exports.releaseSeat = async (req, res) => {
+ try {
+    const { eventId, seatNumber } = req.body;
+    const userId = req.user.id;
+
+    const seat = await Seat.findOneAndUpdate(
+      {
+        eventId,
+        seatNumber,
+        status: "LOCKED",
+        lockedBy: userId,
+      },
+      {
+        $set: {
+          status: "AVAILABLE",
+          lockedBy: null,
+          lockExpiresAt: null,
+        },
+      },
+      { new: true }
+    );
+
+    if (!seat) {
+      return res
+        .status(400)
+        .json({ message: "Seat cannot be released" });
+    }
+
+    res.json({ message: "Seat released", seat });
+  } catch (err) {
+    console.error("Release seat error:", err);
+    res.status(500).json({ message: "Failed to release seat" });
+  }
+}
