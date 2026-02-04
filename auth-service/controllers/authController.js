@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt')
 const User = require('../models/User')
 const jwt = require("jsonwebtoken")
+const dotenv = require('dotenv').config()
+const JWTSECRET = process.env.JWTSECRET
 
 exports.register = async (req, res) => {
     try{
@@ -26,15 +28,18 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     try{
         const {email, password} = req.body;
+        console.log(email, password);
         const user = await User.findOne({
             email
         })
+        console.log('user is', user)
         if(!user){
             return res.status(400).json({
                 message : "The user does not exist"
             })
         }
-        const isMatch = await bcrypt.compare(password, user.hashPassword);
+        const isMatch = await bcrypt.compare(password, user.hashedPassword);
+        console.log('the match is', isMatch);
         if(!isMatch){
             return res.status(400).json({
                 message: "invalid credentials"
@@ -46,6 +51,7 @@ exports.login = async (req, res) => {
         }, JWTSECRET, {
             expiresIn: '1h'
         })
+        console.log('token is :', token)
         res.status(200).json({
             message: "login successful",
             token,

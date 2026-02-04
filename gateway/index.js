@@ -13,9 +13,9 @@ const app = express()
 app.use(express.json());
 
 app.use("/api/auth", authProxy);
-app.use("/api/seat", seatProxy);
-app.use("/api/booking", bookingProxy);
-app.use("/api/event", eventProxy);
+// app.use("/api/seat", seatProxy);
+// app.use("/api/booking", bookingProxy);
+// app.use("/api/event", eventProxy);
 
 
 app.listen(PORT, () => {
