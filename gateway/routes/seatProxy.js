@@ -31,3 +31,5 @@ router.post("/lock", (req, res) => {
 //         res.status(500);
 //     }
 // })
+
+module.exports = router
