@@ -133,3 +133,26 @@ exports.releaseSeat = async (req, res) => {
     res.status(500).json({ message: "Failed to release seat" });
   }
 }
+
+exports.createSeat = async (req, res) => {
+  try {
+    const {eventId, seatNumber} = req.body;
+    if(!eventId || !seatNumber){
+      res.status(400).json({
+        message: "fields missing"
+      })
+    }
+    const seat = await Seat.create({
+      eventId, seatNumber 
+    })
+    res.status(200).json({
+      message: "seat created successfully",
+      seat
+    })
+  } catch (error){
+    console.log('There was an error while creating seat: ', error);
+    res.status(500).json({
+      message: 'There was an error while creating seat'
+    })
+  }
+}

@@ -9,4 +9,6 @@ router.get("/seat/:eventId/:seatNumber",seatController.getSeat);
 router.post("/confirm", seatController.confirmSeat)
 router.post("/release", seatController.releaseSeat)
 
+router.post("/create", seatController.createSeat);
+
 module.exports = router

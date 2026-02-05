@@ -2,10 +2,12 @@ const mongoose = require('mongoose')
 
 const SeatSchema = new mongoose.Schema({
      eventId: {
-        type: String
+        type: String,
+        unique: true
      },
   seatNumber:{
-    type: Number
+    type: Number,
+    unique: true
   },
   status:{
     type: String,
