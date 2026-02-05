@@ -1,9 +1,10 @@
 const Seat = require('../models/Seat')
-
+const redis = require('ioredis')
 
 exports.lockSeat = async (req, res) => {
     const {eventId, seatNumber} = req.body;
-    const userId = req.user.id;
+    const userId = req.headers["x-user-id"];
+const userRole = req.headers["x-user-role"];
 
     const lockKey = `LOCK:${eventId}:${seatNumber}`
     //each seat has it's own lock

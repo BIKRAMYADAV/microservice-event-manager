@@ -3,12 +3,9 @@ const mongoose = require('mongoose')
 const SeatSchema = new mongoose.Schema({
      eventId: {
         type: String,
-        // unique: true
-        index: true
      },
   seatNumber:{
     type: String,
-    unique: true
   },
   status:{
     type: String,
