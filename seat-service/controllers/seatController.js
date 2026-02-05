@@ -67,7 +67,12 @@ exports.getSeat = async (req, res) => {
 exports.confirmSeat = async (req, res) => {
  try {
     const { eventId, seatNumber } = req.body;
-    const userId = req.user.id;
+    // const userId = req.user.id;
+    const userId = req.headers["x-user-id"];
+if (!userId) {
+  return res.status(401).json({ message: "Unauthorized" });
+}
+
 
     const seat = await Seat.findOneAndUpdate(
       {

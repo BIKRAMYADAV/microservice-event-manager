@@ -4,6 +4,7 @@ const authProxy = require('./routes/authProxy')
 const seatProxy = require('./routes/seatProxy')
 const eventProxy = require('./routes/eventProxy')
 const bookingProxy = require('./routes/bookingProxy')
+const verifyJwt = require('./middlewares/jwt')
 
 dotenv.config()
 
@@ -13,7 +14,7 @@ const app = express()
 app.use(express.json());
 
 app.use("/api/auth", authProxy);
-app.use("/api/seat", seatProxy);
+app.use("/api/seat",verifyJwt, seatProxy);
 // app.use("/api/booking", bookingProxy);
 // app.use("/api/event", eventProxy);
 
