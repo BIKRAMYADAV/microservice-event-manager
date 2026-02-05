@@ -3,10 +3,11 @@ const mongoose = require('mongoose')
 const SeatSchema = new mongoose.Schema({
      eventId: {
         type: String,
-        unique: true
+        // unique: true
+        index: true
      },
   seatNumber:{
-    type: Number,
+    type: String,
     unique: true
   },
   status:{
@@ -21,5 +22,8 @@ const SeatSchema = new mongoose.Schema({
     format: Date
   }
 })
-
+SeatSchema.index(
+  { eventId: 1, seatNumber: 1 },
+  { unique: true }
+);
 module.exports = mongoose.model('Seat', SeatSchema)
