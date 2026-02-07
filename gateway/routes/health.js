@@ -5,10 +5,10 @@ const router = express.Router()
 
 
 const services = {
-    auth: "http://localhost:3001/health",
-    booking: "http://localhost:3004/health",
-    event: "http://localhost:3002/health",
-    seat: "http://localhost:3003/health"
+    auth: "http://auth-service:3001/health",
+    booking: "http://booking-service:3004/health",
+    event: "http://event-service:3002/health",
+    seat: "http://seat-service:3003/health"
 }
 
 const checkService = async (name, url) => {

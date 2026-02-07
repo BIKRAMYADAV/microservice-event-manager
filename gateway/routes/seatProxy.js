@@ -3,7 +3,7 @@ const router = express.Router()
 const axios = require('axios')
 const verifyJwt = require('../middlewares/jwt')
 
-const seatApiUrl = "http://localhost:3003"
+const seatApiUrl = "http://seat-service:3003"
 
 router.post("/lock", async (req, res) => {
     console.log('lock api is hit')

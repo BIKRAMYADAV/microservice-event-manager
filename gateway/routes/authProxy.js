@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router();
 const axios = require('axios');
-const authServiceUrl = "http://localhost:3001"
+const authServiceUrl = "http://auth-service:3001"
 
 router.post("/register", async (req, res) => {
     try{
