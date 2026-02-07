@@ -1,0 +1,54 @@
+version: "3.9"
+services: 
+  redis:
+    image: redis/redis-stack:latest
+    container_name: redis
+    ports:
+    - "6379:6379"
+    - "8001:8001"
+  
+  auth-service:
+    build: ./auth-service
+    container_name: auth-service
+    env_file:
+      - ./auth-service/.env
+    ports:
+      - "3001:3001"
+  event-service:
+    build: ./event-service
+    container_name: event-service
+    env_file:
+      - ./event-service/.env
+    ports:
+      - "3002:3002"
+
+  seat-service:
+    build: ./seat-service
+    container_name: seat-service
+    env_file:
+      - ./seat-service/.env
+    depends_on:
+      - redis
+    ports:
+      - "3003:3003"
+
+  booking-service:
+    build: ./booking-service
+    container_name: booking-service
+    env_file:
+      - ./booking-service/.env
+    ports:
+      - "3004:3004"
+
+  gateway:
+    build: ./gateway
+    container_name: gateway
+    env_file:
+      - ./gateway/.env
+    depends_on:
+      - auth-service
+      - event-service
+      - seat-service
+      - booking-service
+    ports:
+      - "8000:8000"
