@@ -1,5 +1,5 @@
 const Seat = require('../models/Seat')
-const redis = require('ioredis')
+const redis = require('../config/redis')
 
 exports.lockSeat = async (req, res) => {
     const {eventId, seatNumber} = req.body;

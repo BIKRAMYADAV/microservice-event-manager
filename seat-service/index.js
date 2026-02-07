@@ -6,6 +6,7 @@ const app = express()
 const seatRoute = require('./routes/seatRoute')
 const connect = require('./config/mongo')
 
+
 app.use(express.json())
 app.use("/seat",seatRoute);
 
