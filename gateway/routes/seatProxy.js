@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const axios = require('axios')
+const verifyJwt = require('../middlewares/jwt')
 
 const seatApiUrl = "http://localhost:3003"
 
@@ -42,7 +43,17 @@ router.post("/create", async (req, res) => {
         res.status(500);
     }
 })
-
+router.post("/bulk-create", async (req, res) => {
+    try {
+        const response = await axios.post(seatApiUrl+"/seat/bulk-create", req.body);
+        res.status(response.status).json(response.data)
+    } catch (error){
+        console.log('There was an error while creating in bulk');
+        res.status(500).json({
+            message: 'There was an error while creating seats in bulk'
+        })
+    }
+})
 // router.post("/release", () => {
 //    try{
 
