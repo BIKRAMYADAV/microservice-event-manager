@@ -162,3 +162,33 @@ exports.createSeat = async (req, res) => {
     })
   }
 }
+
+exports.bulkCreate = async (req, res) => {
+  try {
+    const {eventId, rows, seatPerRow} = req.body;
+    if(!eventId || !rows || !seatPerRow){
+      res.status(400).json({
+        message: "missing fields"
+      })
+    }
+    const seats = [];
+    for(const row of rows){
+      for(i = 1;i<= seatPerRow; i++){
+        const seat = `${row}${i}`
+        seats.push({
+          eventId,
+          seatNumber: seat
+        })
+      }
+    }
+    const response = await Seat.insertMany(seats, {ordered: false})
+    res.status(200).json({
+      message: 'seats successfully created'
+    }) 
+  } catch (error){
+    console.log('There was an error while creating seats in bulk')
+    res.status(500).json({
+      message : 'There was an error in creating seats in bulk'
+    })
+  }
+} 

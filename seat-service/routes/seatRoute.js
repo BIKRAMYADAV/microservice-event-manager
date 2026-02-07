@@ -11,4 +11,6 @@ router.post("/release", seatController.releaseSeat)
 
 router.post("/create", seatController.createSeat);
 
+router.post("/bulk-create", seatController.bulkCreate);
+
 module.exports = router
