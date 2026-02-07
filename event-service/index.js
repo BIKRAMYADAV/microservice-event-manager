@@ -11,6 +11,14 @@ app.use("/events", require("./routes/eventRoutes"))
 
 //for database connection
 connect()
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    service: "event-service",
+    uptime: process.uptime(),
+  });
+});
+
 
 app.listen(EVENTPORT, () => {
     console.log(`The event-service is listening on port ${EVENTPORT}`)

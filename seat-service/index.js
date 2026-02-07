@@ -12,6 +12,14 @@ app.use("/seat",seatRoute);
 
 //mongo connection
 connect()
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    service: "seat-service",
+    uptime: process.uptime(),
+  });
+});
+
 
 app.listen(SEATPORT, () => {
     console.log(`The Seat service is running on port ${SEATPORT}`);

@@ -21,7 +21,13 @@ app.use("/api/auth", authProxy);
 app.use("/api/seat",verifyJwt, seatProxy);
 // app.use("/api/booking", bookingProxy);
 // app.use("/api/event", eventProxy);
-
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    service: "gateway-service",
+    uptime: process.uptime(),
+  });
+});
 
 app.listen(PORT, () => {
     console.log(`The gateway server is listening on port ${PORT}`);

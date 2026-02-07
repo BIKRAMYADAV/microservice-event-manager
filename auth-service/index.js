@@ -12,6 +12,14 @@ connectDB();
 
 app.use("/auth", require("./routes/authRoutes"))
 
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    service: "auth-service",
+    uptime: process.uptime(),
+  });
+});
+
 app.listen(AUTHPORT, () => {
     console.log(`The auth service is running on port ${AUTHPORT}`)
 })
