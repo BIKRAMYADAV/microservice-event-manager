@@ -36,3 +36,6 @@ jobs:
         working-directory: ./${{ matrix.service }}
         run: |
           echo "Build check for ${{ matrix.service }}"
+      - name: Build Docker image
+        working-directory: ./${{ matrix.service }}
+        run: docker build -t eventhive-${{ matrix.service }} .
