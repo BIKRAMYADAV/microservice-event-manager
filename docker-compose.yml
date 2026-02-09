@@ -1,5 +1,13 @@
 version: "3.9"
 services: 
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
   redis:
     image: redis/redis-stack:latest
     container_name: redis
@@ -12,6 +20,8 @@ services:
     container_name: auth-service
     env_file:
       - ./auth-service/.env
+    depends_on:
+      - mongo
     ports:
       - "3001:3001"
   event-service:
@@ -19,6 +29,8 @@ services:
     container_name: event-service
     env_file:
       - ./event-service/.env
+    depends_on:
+      - mongo
     ports:
       - "3002:3002"
 
@@ -29,6 +41,7 @@ services:
       - ./seat-service/.env
     depends_on:
       - redis
+      - mongo
     ports:
       - "3003:3003"
 
@@ -37,12 +50,14 @@ services:
     container_name: booking-service
     env_file:
       - ./booking-service/.env
+    depends_on:
+      - mongo
     ports:
       - "3004:3004"
 
-  gateway:
+  gateway-service:
     build: ./gateway
-    container_name: gateway
+    container_name: gateway-service
     env_file:
       - ./gateway/.env
     depends_on:
@@ -51,4 +66,6 @@ services:
       - seat-service
       - booking-service
     ports:
-      - "8000:8000"
+      - "3000:3000"
+volumes:
+  mongo_data:
