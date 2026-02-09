@@ -1,6 +1,6 @@
 const rateLimit = require('express-rate-limit')
 const redis = require('../config/redis')
-const RedisStore = require('rate-limit-redis')
+const RedisStore = require('rate-limit-redis').default
 
 //the limiter is set to 100 requests per 15 minutes(windoMs) per IP
 const limiter = rateLimit({
